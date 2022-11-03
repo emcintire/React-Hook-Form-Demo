@@ -1,5 +1,17 @@
 import React from "react";
 import Wizard from '../Wizard/Wizard';
+import CustomComponent from './CustomComponent';
+
+// Field Model
+// name:          string
+// label:         string
+// required:      boolean     default = false
+// errorMessage:  string      default = '[name] is required'
+// fieldType:     string      ['text', 'phone', 'number', 'email', 'dropdown', 'date', 'checkbox', 'radio']
+// options:       array       [{ label, value }, { label, value }] | for select and radio fields only
+// minValue:      number      for number fields only
+// maxValue:      number      for number fields only
+// allowDecimals: boolean     for number fields only
 
 const wizardModel = {
   name: 'Checkout',
@@ -25,21 +37,47 @@ const wizardModel = {
         fieldType: 'phone',
       },
       {
+        name: 'email',
+        label: 'Email',
+        required: true,
+        fieldType: 'email',
+      },
+      {
         name: 'age',
         label: 'Age',
         required: true,
         fieldType: 'number',
-        maxValue: 200,  // default = none
-        minValue: 0,    // default = none
-        allowDecimals: false, // default = false
+        maxValue: 200,
+        minValue: 0,
+        allowDecimals: false,
       },
       {
         name: 'dateOfBirth',
         label: 'Date of Birth',
         required: true,
         fieldType: 'date',
-        errorMessage: "I pity the fool who doesn't enter his birthday" // default = "[name] is required"
+        errorMessage: "Enter a valid date",
       },
+      {
+        name: 'gender',
+        label: 'Gender',
+        required: true,
+        fieldType: 'radio',
+        options: [
+          {
+            label: 'Female',
+            value: 1
+          },
+          {
+            label: 'Male',
+            value: 2
+          },
+          {
+            label: 'Other',
+            value: 3
+          },
+        ]
+      }
     ]
   },
   {
@@ -59,7 +97,7 @@ const wizardModel = {
       },
       {
         name: 'sameMailingAddress',
-        label: 'Use the same address for the Mailing Address',
+        label: 'Same for Mailing Address',
         required: false,
         fieldType: 'checkbox'
       },
@@ -84,26 +122,32 @@ const wizardModel = {
         ]
       }
     ]
+  },
+  {
+    name: 'Review Order',
+    customComponent: () => <CustomComponent />,
   }]
 };
 
 export default function CheckoutPage() {
   const data = {
-      firstName: 'Nicolas',
-      lastName: 'Cage',
-      dateOfBirth: '',
-      phone: '',
       address: '',
       city: 'Boston',
-      state: '',
+      dateOfBirth: '',
+      email: '',
+      firstName: 'Nicolas',
+      gender: '',
+      lastName: 'Cage',
+      phone: '',
       sameMailingAddress: false,
+      state: '',
   };
 
-  const onSubmit = (values) => {
-    alert(JSON.stringify(values, null, 2));
+  const handleSubmit = (values) => {
+    console.log(JSON.stringify(values));
   };
 
   return (
-    <Wizard data={data} onSubmit={onSubmit} wizardModel={wizardModel} />
+    <Wizard data={data} onSubmit={handleSubmit} wizardModel={wizardModel} />
   );
 }

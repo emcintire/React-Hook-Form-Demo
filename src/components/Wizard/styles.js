@@ -19,5 +19,12 @@ export default makeStyles(theme => ({
     position: 'absolute',
     top: '50%',
     left: '50%'
-  }
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  grid: {
+    width: '80%',
+  },
 }));
